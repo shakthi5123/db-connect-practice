@@ -1,103 +1,202 @@
-import Image from "next/image";
 
-export default function Home() {
+"use client";
+
+// import siteData from "../data/siteData.json" 
+import { useState, useEffect } from "react";
+import { FaWhatsapp } from "react-icons/fa";
+import { IoMdCall } from "react-icons/io";
+import { IoMdMail } from "react-icons/io";
+import { GrLocation } from "react-icons/gr";
+import { FaInternetExplorer } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa6";
+import { FaFacebook } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
+import {FaMoon, FaSun} from "react-icons/fa"
+
+// import { useTheme } from "@/context/ThemeContext";
+
+// const hotelInfoData = siteData.hotelInfo
+
+
+export default function HotelInfo() {
+
+   const [hotel, setHotel] = useState(null);
+
+  useEffect(() => {
+    fetch("/api/hotel")
+      .then((res) => res.json())
+      .then((data) => setHotel(data));
+  }, []);
+
+  if (!hotel) return <p>Loading...</p>;
+
+  const { darkMode, toggleTheme } = useTheme();
+
+  // const {
+  //   name,
+  //   image,
+  //   description,
+  //   address,
+  //   whatsup,
+  //   phone,
+  //   phoneLink,
+  //   email,
+  //   emailLink,
+  //   locationLink,
+  //   location,
+  //   website,
+  //   websiteLink,
+  //   socials,
+  // } = hotelInfoData;
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <section className="container max-w-[735px] px-4 pt-3 w-full mx-auto mb-8  ">
+      {/* section mei px-4 pt-3  */}
+      
+      <div className="shadow-xl w-full  mt-5 p-6 mx-auto bg-[#eceeee]  rounded-xl neumorphic">
+        {/* <ThemeProvider /> */}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+
+         {/* Toggle Button */}
+      <div className="flex justify-end">
+        <button
+          onClick={toggleTheme}
+          className="p-2 text-xl bg-[#eceeee] dark:bg-[#2a2a2a] rounded-full shadow-md hover:scale-110 transition-transform"
+          aria-label="Toggle Dark Mode"
+        >
+          {darkMode ? <FaSun className="text-yellow-400" /> : <FaMoon className="text-blue-500" />}
+        </button>
+      </div>
+
+
+
+        {/* img-logo  */}
+        <div className="mb-4 ">
+          <img
+            src={image}
+            alt="Altruist logo"
+            className="w-full max-w-[381px] h-auto object-contain"
+          />
+        </div>
+
+        <h1 className="text-3xl font-semibold light-text dark-text ">{name}</h1>
+
+        <p className="text-sm italic break-words sm:break-normal light-text dark-text font-normal leading-normal">
+          {address}
+        </p>
+
+
+        <div className="flex flex-col sm:flex-row gap-4 mt-4">
+          {/* WhatsApp Button */}
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href={whatsup}
             target="_blank"
             rel="noopener noreferrer"
+            className="w-full"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            <button className="w-full flex items-center justify-center gap-2 rounded-lg py-2 font-medium  light-text dark-text bg-[#eceeee] relative transition-all duration-300 ease-in-out hover:scale-[1.03] neumorphic neumorphic-hover">
+              <FaWhatsapp />
+              WhatsApp
+            </button>
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+
+          {/* Call Button */}
+          <a href={phoneLink} className="w-full">
+            <button className="w-full flex items-center justify-center gap-2 rounded-lg py-2 font-medium light-text dark-text  bg-[#eceeee] relative transition-all duration-300 ease-in-out hover:scale-[1.03] neumorphic neumorphic-hover">
+              <IoMdCall />
+              Call
+            </button>
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        <p className="mt-4 text-[16px] break-words sm:break-normal light-text dark-text font-medium leading-normal">
+          {description}
+        </p>
+
+        {/* contact-info */}
+        <div className="text-lg flex flex-col justify-center item-center font-semibold mt-4 space-y-2 text-left">
+          <div className="flex items-center gap-2 hover:light-text dark-text  hover:scale-101 transition-transform duration-300">
+            <IoMdCall className="light-text dark-text cursor-pointer  " />
+            <a
+              href={phoneLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {phone}
+            </a>
+          </div>
+
+          <div className="flex gap-2 hover:text-blue-600 hover:scale-101 transition-transform duration-300  items-center hover:underline">
+            <IoMdMail className="light-text dark-text cursor-pointer " />
+            <a
+              href={emailLink}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {email}
+            </a>
+          </div>
+
+          <div className="flex gap-2  items-center hover:underline hover:light-text dark-text hover:scale-101 transition-transform duration-300">
+            <GrLocation className="light-text dark-text cursor-pointer" />
+            <a
+              href={locationLink}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {location}
+            </a>
+          </div>
+
+          <div className="flex gap-2 items-center hover:underline hover:light-text dark-text hover:scale-101 transition-transform duration-300">
+            <FaInternetExplorer className="light-text dark-text cursor-pointer" />
+            <a
+              href={websiteLink}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {website}
+            </a>
+          </div>
+
+          {/* Social Media Links  */}
+
+          <div className="mt-6 flex justify-center gap-5 text-gray-600 text-xl">
+            <a
+              href={socials.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-12 h-12 flex items-center justify-center rounded-full bg-[#eceeee] shadow-md text-[#0A66C2] hover:scale-115 transition-transform duration-300 cursor-pointer neumorphic neumorphic-hover"
+            >
+              <FaLinkedin />
+            </a>
+            <a
+              href={socials.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-12 h-12 flex items-center justify-center rounded-full bg-[#eceeee] shadow-md text-[#1877F2] hover:scale-115 transition-transform duration-300 cursor-pointer neumorphic neumorphic-hover"
+            >
+              <FaFacebook />
+            </a>
+            <a
+              href={socials.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-12 h-12 flex items-center justify-center rounded-full bg-[#eceeee] shadow-md text-[#e73563] hover:scale-115 transition-transform duration-300 cursor-pointer neumorphic neumorphic-hover"
+            >
+              <FaInstagram />
+            </a>
+            <a
+              href={socials.youtube}
+              className="w-12 h-12 flex items-center justify-center rounded-full bg-[#eceeee] shadow-md text-[#FF0000] hover:scale-115 transition-transform duration-300 cursor-pointer neumorphic neumorphic-hover"
+              rel="noopener noreferrer"
+            >
+              <FaYoutube />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
+
